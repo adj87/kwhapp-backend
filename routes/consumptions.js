@@ -8,9 +8,9 @@ router.get("/", function (req, res, next) {
   res.send("respond with a resource");
 });
 
-router.get("/importData", function (req, res, next) {
+router.get("/import-data", function (req, res, next) {
   const results = [];
-  fs.createReadStream("routes/consumo-2018-12.csv")
+  fs.createReadStream("consumo-2018-12.csv")
     .pipe(csv({}))
     .on("data", (data) => results.push(data))
     .on("end", () => {

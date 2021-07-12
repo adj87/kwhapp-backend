@@ -12,7 +12,13 @@ conn.once("open", () => {
   console.log("Connected to mongodb on", mongoose.connection.name);
 });
 
+conn.once("close", () => {
+  console.log("Connection closed", mongoose.connection.name);
+});
+
 mongoose.connect("mongodb://localhost/prueba-fs", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+module.exports = mongoose;
