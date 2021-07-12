@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const anuncioSchema = mongoose.Schema({
+const consumptionSchema = mongoose.Schema({
   date: String,
   time: Number,
   consumption: Number,
@@ -8,6 +8,13 @@ const anuncioSchema = mongoose.Schema({
   cost_per_hour: Number,
 });
 
-const Anuncio = mongoose.model("Anuncio", anuncioSchema);
+// prettier-ignore
+consumptionSchema.index({date: 1, time: 1}, { unique: true });
 
-module.exports = Anuncio;
+const Consumption = mongoose.model(
+  "Consumption",
+  consumptionSchema,
+  "consumptions"
+);
+
+module.exports = Consumption;
