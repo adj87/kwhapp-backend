@@ -4,13 +4,20 @@ var csv = require("csv-parser");
 var fs = require("fs");
 var Consumption = require("../models/Consumption");
 
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+router.get("/", async function (req, res, next) {
+  const docs = await Consumption.find({});
+  res.json(docs);
 });
 
-router.get("/import-data", function (req, res, next) {
-  const results = [];
-  fs.createReadStream("consumo-2018-12.csv")
+router.post("/import-data", function (req, res, next) {
+  const { base64 } = req.body;
+
+  const fileName = `file-${new Date().getTime()}`;
+  fs.writeFile(fileName, base64, "base64", function (err) {
+    console.log(err);
+    return res.json({ success: true });
+  });
+  /*   fs.createReadStream("consumo-2018-12.csv")
     .pipe(csv({}))
     .on("data", (data) => results.push(data))
     .on("end", () => {
@@ -37,7 +44,7 @@ router.get("/import-data", function (req, res, next) {
           const message = err.writeErrors[0]["errmsg"];
           res.status(400).json({ success: false, message });
         });
-    });
+    }); */
 });
 
 module.exports = router;
