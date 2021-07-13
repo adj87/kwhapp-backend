@@ -14,6 +14,19 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.put("/:id", function (req, res, next) {
+  Consumption.updateOne({ _id: req.params.id }, req.body, function (err) {
+    if (err)
+      return res
+        .status(500)
+        .send({
+          success: false,
+          message: "Something went wrong!! There is only one row per date and time",
+        });
+    return res.json({ success: true, message: "Row updated" });
+  });
+});
+
 router.delete("/:id", function ({ params }, res, next) {
   Consumption.deleteOne({ _id: params.id }, function (err) {
     if (err) return res.status(500).send({ success: false, message: "Something went wrong!!" });
