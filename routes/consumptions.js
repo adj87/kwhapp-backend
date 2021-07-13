@@ -6,8 +6,19 @@ var path = require("path");
 var Consumption = require("../models/Consumption");
 
 router.get("/", async function (req, res, next) {
-  const docs = await Consumption.find({});
-  res.json(docs);
+  try {
+    const docs = await Consumption.find({});
+    res.json(docs);
+  } catch (err) {
+    res.status(500).send({ success: false, message: "Something went wrong!!" });
+  }
+});
+
+router.delete("/:id", function ({ params }, res, next) {
+  Consumption.deleteOne({ _id: params.id }, function (err) {
+    if (err) return res.status(500).send({ success: false, message: "Something went wrong!!" });
+    return res.json({ success: true, message: "Row deleted" });
+  });
 });
 
 router.post("/import-data", function (req, res, next) {
