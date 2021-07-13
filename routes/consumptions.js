@@ -14,15 +14,29 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.post("/", function (req, res, next) {
+  const consumption = new Consumption(req.body);
+
+  consumption.save((err, consumption) => {
+    if (err) {
+      return res.status(400).send({
+        success: false,
+        message:
+          "Something went wrong!! There is only one row per date and time.Make sure you are not attempting insert a duplicated value",
+      });
+    }
+    return res.json({ success: true, result: consumption });
+  });
+});
+
 router.put("/:id", function (req, res, next) {
   Consumption.updateOne({ _id: req.params.id }, req.body, function (err) {
     if (err)
-      return res
-        .status(500)
-        .send({
-          success: false,
-          message: "Something went wrong!! There is only one row per date and time",
-        });
+      return res.status(400).send({
+        success: false,
+        message:
+          "Something went wrong!! There is only one row per date and time.Make sure you are not attempting insert a duplicated value",
+      });
     return res.json({ success: true, message: "Row updated" });
   });
 });
