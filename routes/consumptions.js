@@ -8,7 +8,7 @@ var Consumption = require("../models/Consumption");
 router.get("/", async function (req, res, next) {
   try {
     const docs = await Consumption.find({});
-    res.json(docs);
+    res.json(docs.sort((a, b) => new Date(b.date) - new Date(a.date))); // sort by date desc
   } catch (err) {
     res.status(500).send({ success: false, message: "Something went wrong!!" });
   }
