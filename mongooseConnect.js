@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose");
 const conn = mongoose.connection;
-const db_url = "mongodb+srv://user:KJdd815nCXpOyiNP@cluster0.3kckz.mongodb.net/jalajala";
+const db_url = "mongodb+srv://user:KJdd815nCXpOyiNP@cluster0.3kckz.mongodb.net/prueba-fs";
 conn.on("error", (err) => {
   console.log("Error de conexión", err);
   process.exit(1);
